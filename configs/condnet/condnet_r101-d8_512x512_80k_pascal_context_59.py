@@ -7,6 +7,6 @@ model = dict(
     pretrained='open-mmlab://resnet101_v1c',
     backbone=dict(depth=101),
     decode_head=dict(num_classes=59),
-    auxiliary_head=dict(num_classes=59),
-    test_cfg=dict(mode='slide', crop_size=(480, 480), stride=(320, 320)))
+    auxiliary_head=dict(num_classes=59))
+test_cfg = dict(mode='slide', crop_size=(480, 480), stride=(320, 320))
 optimizer = dict(type='SGD', lr=0.004, momentum=0.9, weight_decay=0.0001)
