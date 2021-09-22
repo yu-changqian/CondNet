@@ -49,7 +49,7 @@ the conditional classifier (called CondNet) achieves new state-of-the-art perfor
 ## Environments
 The code is developed using python 3.7 on Ubuntu 16.04. NVIDIA GPUs are needed. The code is developed and tested using 8 NVIDIA V100 GPU cards. Other platforms or GPU cards are not fully tested.
 
-## Installation
+## Quick Start
 
 ### Prerequisites
 
