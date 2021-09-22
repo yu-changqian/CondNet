@@ -21,7 +21,16 @@ proposed classifier performs favourably against the traditional
 classifier on the FCN architecture. The framework equipped with
 the conditional classifier (called CondNet) achieves new state-of-the-art performances on two datasets.
 
-![model image](resources/model.png)
+<div align="center">
+  <img src="resources/model.png" width="450"/>
+</div>
+<br />
+
+## Major Features
+- **Simple and Flexible**
+- **Incorporated with almost arbitrary FCN architectures**
+- **Attending on the sample-specific distinction of each category**
+
 
 ## Results and Models
 ### ADE20K
