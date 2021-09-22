@@ -1,6 +1,6 @@
 # [CondNet: Conditional Classifier for Scene Segmentation](https://arxiv.org/pdf/2109.10322.pdf)
 
-## Introducation
+## Introduction
 
 The fully convolutional network (FCN) has achieved
 tremendous success in dense visual recognition tasks, such as
