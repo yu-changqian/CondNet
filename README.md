@@ -304,4 +304,4 @@ If you find this project useful in your research, please consider cite:
 ## Acknowledgement
 Thanks to:
 - [MMSegmentation](https://github.com/open-mmlab/mmsegmentation)
-- [AdeDet](https://github.com/aim-uofa/AdelaiDet)
+- [AdelaiDet](https://github.com/aim-uofa/AdelaiDet)
