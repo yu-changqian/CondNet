@@ -59,6 +59,7 @@ The code is developed using python 3.7 on Ubuntu 16.04. NVIDIA GPUs are needed. 
 - CUDA 9.2+ (If you build PyTorch from source, CUDA 9.0 is also compatible)
 - GCC 5+
 - [MMCV](https://mmcv.readthedocs.io/en/latest/#installation)
+- [MMSegmentation](https://github.com/open-mmlab/mmsegmentation/blob/master/docs/get_started.md#installation)
 
 The compatible MMSegmentation and MMCV versions are as below. Please install the correct version of MMCV to avoid installation issues.
 
