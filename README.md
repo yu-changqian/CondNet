@@ -1,159 +1,298 @@
-<div align="center">
-  <img src="resources/mmseg-logo.png" width="600"/>
-</div>
-<br />
+# [CondNet: Conditional Classifier for Scene Segmentation](https://arxiv.org/pdf/2109.10322.pdf)
 
-[![PyPI](https://img.shields.io/pypi/v/mmsegmentation)](https://pypi.org/project/mmsegmentation)
-[![docs](https://img.shields.io/badge/docs-latest-blue)](https://mmsegmentation.readthedocs.io/en/latest/)
-[![badge](https://github.com/open-mmlab/mmsegmentation/workflows/build/badge.svg)](https://github.com/open-mmlab/mmsegmentation/actions)
-[![codecov](https://codecov.io/gh/open-mmlab/mmsegmentation/branch/master/graph/badge.svg)](https://codecov.io/gh/open-mmlab/mmsegmentation)
-[![license](https://img.shields.io/github/license/open-mmlab/mmsegmentation.svg)](https://github.com/open-mmlab/mmsegmentation/blob/master/LICENSE)
-[![issue resolution](https://isitmaintained.com/badge/resolution/open-mmlab/mmsegmentation.svg)](https://github.com/open-mmlab/mmsegmentation/issues)
-[![open issues](https://isitmaintained.com/badge/open/open-mmlab/mmsegmentation.svg)](https://github.com/open-mmlab/mmsegmentation/issues)
+## Introducation
 
-Documentation: https://mmsegmentation.readthedocs.io/
+The fully convolutional network (FCN) has achieved
+tremendous success in dense visual recognition tasks, such as
+scene segmentation. The last layer of FCN is typically a global
+classifier (1×1 convolution) to recognize each pixel to a semantic
+label. We empirically show that this global classifier, ignoring the
+intra-class distinction, may lead to sub-optimal results.
 
-English | [简体中文](README_zh-CN.md)
+In this work, we present a conditional classifier to replace the
+traditional global classifier, where the kernels of the classifier
+are generated dynamically conditioned on the input. The main
+advantages of the new classifier consist of: (i) it attends on
+the intra-class distinction, leading to stronger dense recognition
+capability; (ii) the conditional classifier is simple and flexible
+to be integrated into almost arbitrary FCN architectures to improve the prediction. 
+Extensive experiments demonstrate that the
+proposed classifier performs favourably against the traditional
+classifier on the FCN architecture. The framework equipped with
+the conditional classifier (called CondNet) achieves new state-of-the-art performances on two datasets.
 
-## Introduction
+![model image](resources/model.png)
 
-MMSegmentation is an open source semantic segmentation toolbox based on PyTorch.
-It is a part of the OpenMMLab project.
+## Results and Models
+### ADE20K
 
-The master branch works with **PyTorch 1.3+**.
+| Method  | Backbone | Crop Size | Lr schd |  mIoU | mIoU(ms+flip) | config                                                           | download  |
+| ------- | -------- | --------- | ------: | ----: | ------------: | ---------------------------------------------------------------- | --------- |
+| CondNet | R-50-D8  | 512x512   |  160000 | 43.68 |         44.30 | [config](configs/condnet/condnet_r50-d8_512x512_160k_ade20k.py)  | [model]() |
+| CondNet | R-101-D8 | 512x512   |  160000 | 45.64 |         47.12 | [config](configs/condnet/condnet_r101-d8_512x512_160k_ade20k.py) | [model]() |
 
-![demo image](resources/seg_demo.gif)
+#### Pascal Context 59
 
-### Major features
+| Method  | Backbone | Crop Size | Lr schd |  mIoU | mIoU(ms+flip) | config                                                                                      | download  |
+| ------- | -------- | --------- | ------: | ----: | ------------: | ------------------------------------------------------------------------------------------- | --------- |
+| CondNet | R-101-D8 | 480x480   |   80000 | 54.29 |         55.74 | [config](configs/condnet/condnet_r101-d8_headlrx10_lr1e-3_480x480_80k_pascal_context_59.py) | [model]() |
 
-- **Unified Benchmark**
-
-  We provide a unified benchmark toolbox for various semantic segmentation methods.
-
-- **Modular Design**
-
-  We decompose the semantic segmentation framework into different components and one can easily construct a customized semantic segmentation framework by combining different modules.
-
-- **Support of multiple methods out of box**
-
-  The toolbox directly supports popular and contemporary semantic segmentation frameworks, *e.g.* PSPNet, DeepLabV3, PSANet, DeepLabV3+, etc.
-
-- **High efficiency**
-
-  The training speed is faster than or comparable to other codebases.
-
-## License
-
-This project is released under the [Apache 2.0 license](LICENSE).
-
-## Changelog
-
-v0.16.0 was released in 08/04/2021.
-Please refer to [changelog.md](docs/changelog.md) for details and release history.
-
-## Benchmark and model zoo
-
-Results and models are available in the [model zoo](docs/model_zoo.md).
-
-Supported backbones:
-
-- [x] ResNet (CVPR'2016)
-- [x] ResNeXt (CVPR'2017)
-- [x] [HRNet (CVPR'2019)](configs/hrnet)
-- [x] [ResNeSt (ArXiv'2020)](configs/resnest)
-- [x] [MobileNetV2 (CVPR'2018)](configs/mobilenet_v2)
-- [x] [MobileNetV3 (ICCV'2019)](configs/mobilenet_v3)
-- [x] [Vision Transformer (ICLR'2021)](configs/vit)
-- [x] [Swin Transformer (ArXiv'2021)](configs/swin)
-
-Supported methods:
-
-- [x] [FCN (CVPR'2015/TPAMI'2017)](configs/fcn)
-- [x] [UNet (MICCAI'2016/Nat. Methods'2019)](configs/unet)
-- [x] [PSPNet (CVPR'2017)](configs/pspnet)
-- [x] [DeepLabV3 (ArXiv'2017)](configs/deeplabv3)
-- [x] [Mixed Precision (FP16) Training (ArXiv'2017)](configs/fp16)
-- [x] [PSANet (ECCV'2018)](configs/psanet)
-- [x] [DeepLabV3+ (CVPR'2018)](configs/deeplabv3plus)
-- [x] [UPerNet (ECCV'2018)](configs/upernet)
-- [x] [NonLocal Net (CVPR'2018)](configs/nonlocal_net)
-- [x] [EncNet (CVPR'2018)](configs/encnet)
-- [x] [Semantic FPN (CVPR'2019)](configs/sem_fpn)
-- [x] [DANet (CVPR'2019)](configs/danet)
-- [x] [APCNet (CVPR'2019)](configs/apcnet)
-- [x] [EMANet (ICCV'2019)](configs/emanet)
-- [x] [CCNet (ICCV'2019)](configs/ccnet)
-- [x] [DMNet (ICCV'2019)](configs/dmnet)
-- [x] [ANN (ICCV'2019)](configs/ann)
-- [x] [GCNet (ICCVW'2019/TPAMI'2020)](configs/gcnet)
-- [x] [Fast-SCNN (ArXiv'2019)](configs/fastscnn)
-- [x] [OCRNet (ECCV'2020)](configs/ocrnet)
-- [x] [DNLNet (ECCV'2020)](configs/dnlnet)
-- [x] [PointRend (CVPR'2020)](configs/point_rend)
-- [x] [CGNet (TIP'2020)](configs/cgnet)
-- [x] [SETR (CVPR'2021)](configs/setr)
-- [x] [SegFormer (ArXiv'2021)](configs/segformer)
-
-Supported datasets:
-
-- [x] [Cityscapes](https://github.com/open-mmlab/mmsegmentation/blob/master/docs/dataset_prepare.md#cityscapes)
-- [x] [PASCAL VOC](https://github.com/open-mmlab/mmsegmentation/blob/master/docs/dataset_prepare.md#pascal-voc)
-- [x] [ADE20K](https://github.com/open-mmlab/mmsegmentation/blob/master/docs/dataset_prepare.md#ade20k)
-- [x] [Pascal Context](https://github.com/open-mmlab/mmsegmentation/blob/master/docs/dataset_prepare.md#pascal-context)
-- [x] [CHASE_DB1](https://github.com/open-mmlab/mmsegmentation/blob/master/docs/dataset_prepare.md#chase-db1)
-- [x] [DRIVE](https://github.com/open-mmlab/mmsegmentation/blob/master/docs/dataset_prepare.md#drive)
-- [x] [HRF](https://github.com/open-mmlab/mmsegmentation/blob/master/docs/dataset_prepare.md#hrf)
-- [x] [STARE](https://github.com/open-mmlab/mmsegmentation/blob/master/docs/dataset_prepare.md#stare)
-- [x] [Dark Zurich](https://github.com/open-mmlab/mmsegmentation/blob/master/docs/dataset_prepare.md#dark-zurich)
-- [x] [Nighttime Driving](https://github.com/open-mmlab/mmsegmentation/blob/master/docs/dataset_prepare.md#nighttime-driving)
+## Environments
+The code is developed using python 3.7 on Ubuntu 16.04. NVIDIA GPUs are needed. The code is developed and tested using 8 NVIDIA V100 GPU cards. Other platforms or GPU cards are not fully tested.
 
 ## Installation
 
-Please refer to [get_started.md](docs/get_started.md#installation) for installation and [dataset_prepare.md](docs/dataset_prepare.md#prepare-datasets) for dataset preparation.
+### Prerequisites
 
-## Get Started
+- Linux or macOS (Windows is in experimental support)
+- Python 3.6+
+- PyTorch 1.3+
+- CUDA 9.2+ (If you build PyTorch from source, CUDA 9.0 is also compatible)
+- GCC 5+
+- [MMCV](https://mmcv.readthedocs.io/en/latest/#installation)
 
-Please see [train.md](docs/train.md) and [inference.md](docs/inference.md) for the basic usage of MMSegmentation.
-There are also tutorials for [customizing dataset](docs/tutorials/customize_datasets.md), [designing data pipeline](docs/tutorials/data_pipeline.md), [customizing modules](docs/tutorials/customize_models.md), and [customizing runtime](docs/tutorials/customize_runtime.md).
-We also provide many [training tricks](docs/tutorials/training_tricks.md) for better training and [usefule tools](docs/useful_tools.md) for deployment.
+The compatible MMSegmentation and MMCV versions are as below. Please install the correct version of MMCV to avoid installation issues.
 
-A Colab tutorial is also provided. You may preview the notebook [here](demo/MMSegmentation_Tutorial.ipynb) or directly [run](https://colab.research.google.com/github/open-mmlab/mmsegmentation/blob/master/demo/MMSegmentation_Tutorial.ipynb) on Colab.
+| MMSegmentation version |       MMCV version       |
+| :--------------------: | :----------------------: |
+|         master         | mmcv-full>=1.3.7, <1.4.0 |
+|         0.16.0         | mmcv-full>=1.3.7, <1.4.0 |
+|         0.15.0         | mmcv-full>=1.3.7, <1.4.0 |
+|         0.14.1         | mmcv-full>=1.3.7, <1.4.0 |
+|         0.14.0         | mmcv-full>=1.3.1, <1.3.2 |
+|         0.13.0         | mmcv-full>=1.3.1, <1.3.2 |
+|         0.12.0         | mmcv-full>=1.1.4, <1.3.2 |
+|         0.11.0         | mmcv-full>=1.1.4, <1.3.0 |
+|         0.10.0         | mmcv-full>=1.1.4, <1.3.0 |
+|         0.9.0          | mmcv-full>=1.1.4, <1.3.0 |
+|         0.8.0          | mmcv-full>=1.1.4, <1.2.0 |
+|         0.7.0          | mmcv-full>=1.1.2, <1.2.0 |
+|         0.6.0          | mmcv-full>=1.1.2, <1.2.0 |
+
+Note: You need to run `pip uninstall mmcv` first if you have mmcv installed.
+If mmcv and mmcv-full are both installed, there will be `ModuleNotFoundError`.
+
+### Installation
+
+a. Create a conda virtual environment and activate it.
+
+```shell
+conda create -n open-mmlab python=3.7 -y
+conda activate open-mmlab
+```
+
+b. Install PyTorch and torchvision following the [official instructions](https://pytorch.org/).
+Here we use PyTorch 1.6.0 and CUDA 10.1.
+You may also switch to other version by specifying the version number.
+
+```shell
+conda install pytorch=1.6.0 torchvision cudatoolkit=10.1 -c pytorch
+```
+
+c. Install [MMCV](https://mmcv.readthedocs.io/en/latest/) following the [official instructions](https://mmcv.readthedocs.io/en/latest/#installation).
+Either `mmcv` or `mmcv-full` is compatible with MMSegmentation, but for methods like CCNet and PSANet, CUDA ops in `mmcv-full` is required.
+
+**Install mmcv for Linux:**
+
+The pre-build mmcv-full (with PyTorch 1.6 and CUDA 10.1) can be installed by running: (other available versions could be found [here](https://mmcv.readthedocs.io/en/latest/#install-with-pip))
+
+```shell
+pip install mmcv-full -f https://download.openmmlab.com/mmcv/dist/cu101/torch1.6.0/index.html
+```
+
+Or you should download the cl compiler from web and then set up the path.
+
+Then, clone mmcv from github and install mmcv via pip:
+
+```shell
+git clone https://github.com/open-mmlab/mmcv.git
+cd mmcv
+pip install -e .
+```
+
+Or simply:
+
+```shell
+pip install mmcv
+```
+
+d. Install build requirements
+```shell
+pip install -r requirements.txt
+```
+
+## Prepare datasets
+It is recommended to symlink the dataset root to `$CONDNET/data`.
+If your folder structure is different, you may need to change the corresponding paths in config files.
+
+```none
+condnet
+├── models
+├── tools
+├── configs
+├── data
+│   ├── VOCdevkit
+│   │   ├── VOC2012
+│   │   │   ├── JPEGImages
+│   │   │   ├── SegmentationClass
+│   │   │   ├── ImageSets
+│   │   │   │   ├── Segmentation
+│   │   ├── VOC2010
+│   │   │   ├── JPEGImages
+│   │   │   ├── SegmentationClassContext
+│   │   │   ├── ImageSets
+│   │   │   │   ├── SegmentationContext
+│   │   │   │   │   ├── train.txt
+│   │   │   │   │   ├── val.txt
+│   │   │   ├── trainval_merged.json
+│   │   ├── VOCaug
+│   │   │   ├── dataset
+│   │   │   │   ├── cls
+│   ├── ade
+│   │   ├── ADEChallengeData2016
+│   │   │   ├── annotations
+│   │   │   │   ├── training
+│   │   │   │   ├── validation
+│   │   │   ├── images
+│   │   │   │   ├── training
+│   │   │   │   ├── validation
+```
+
+### ADE20K
+
+The training and validation set of ADE20K could be download from this [link](http://data.csail.mit.edu/places/ADEchallenge/ADEChallengeData2016.zip).
+We may also download test set from [here](http://data.csail.mit.edu/places/ADEchallenge/release_test.zip).
+
+### Pascal Context
+
+The training and validation set of Pascal Context could be download from [here](http://host.robots.ox.ac.uk/pascal/VOC/voc2010/VOCtrainval_03-May-2010.tar). You may also download test set from [here](http://host.robots.ox.ac.uk:8080/eval/downloads/VOC2010test.tar) after registration.
+
+To split the training and validation set from original dataset, you may download trainval_merged.json from [here](https://codalabuser.blob.core.windows.net/public/trainval_merged.json).
+
+If you would like to use Pascal Context dataset, please install [Detail](https://github.com/zhanghang1989/detail-api) and then run the following command to convert annotations into proper format.
+
+```shell
+python tools/convert_datasets/pascal_context.py data/VOCdevkit data/VOCdevkit/VOC2010/trainval_merged.json
+```
+
+More datasets please refer to MMSegmentation.
+
+## Training and Testing
+
+All outputs (log files and checkpoints) will be saved to the working directory,
+which is specified by `work_dir` in the config file.
+
+By default we evaluate the model on the validation set after some iterations, you can change the evaluation interval by adding the interval argument in the training config.
+
+```python
+evaluation = dict(interval=4000)  # This evaluate the model per 4000 iterations.
+```
+
+**\*Important\***: The default learning rate in config files is for 4 GPUs and 2 img/gpu (batch size = 4x2 = 8).
+Equivalently, you may also use 8 GPUs and 1 imgs/gpu since all models using cross-GPU SyncBN.
+
+To trade speed with GPU memory, you may pass in `--options model.backbone.with_cp=True` to enable checkpoint in backbone.
+
+### Training 
+ 
+**Train with a single GPU**
+
+```shell
+python tools/train.py ${CONFIG_FILE} [optional arguments]
+```
+
+If you want to specify the working directory in the command, you can add an argument `--work-dir ${YOUR_WORK_DIR}`.
+
+**Train with multiple GPUs**
+
+```shell
+./tools/dist_train.sh ${CONFIG_FILE} ${GPU_NUM} [optional arguments]
+```
+
+Optional arguments are:
+
+- `--no-validate` (**not suggested**): By default, the codebase will perform evaluation at every k iterations during the training. To disable this behavior, use `--no-validate`.
+- `--work-dir ${WORK_DIR}`: Override the working directory specified in the config file.
+- `--resume-from ${CHECKPOINT_FILE}`: Resume from a previous checkpoint file (to continue the training process).
+- `--load-from ${CHECKPOINT_FILE}`: Load weights from a checkpoint file (to start finetuning for another task).
+
+Difference between `resume-from` and `load-from`:
+
+- `resume-from` loads both the model weights and optimizer state including the iteration number.
+- `load-from` loads only the model weights, starts the training from iteration 0.
+
+**Launch multiple jobs on a single machine**
+
+If you launch multiple jobs on a single machine, e.g., 2 jobs of 4-GPU training on a machine with 8 GPUs,
+you need to specify different ports (29500 by default) for each job to avoid communication conflict. Otherwise, there will be error message saying `RuntimeError: Address already in use`.
+
+If you use `dist_train.sh` to launch training jobs, you can set the port in commands with environment variable `PORT`.
+
+```shell
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./tools/dist_train.sh ${CONFIG_FILE} 4
+CUDA_VISIBLE_DEVICES=4,5,6,7 PORT=29501 ./tools/dist_train.sh ${CONFIG_FILE} 4
+```
+
+If you use `slurm_train.sh` to launch training jobs, you can set the port in commands with environment variable `MASTER_PORT`.
+
+```shell
+MASTER_PORT=29500 ./tools/slurm_train.sh ${PARTITION} ${JOB_NAME} ${CONFIG_FILE}
+MASTER_PORT=29501 ./tools/slurm_train.sh ${PARTITION} ${JOB_NAME} ${CONFIG_FILE}
+```
+
+### Testing
+
+- single GPU
+- single node multiple GPU
+
+You can use the following commands to test a dataset.
+
+```shell
+# single-gpu testing
+python tools/test.py ${CONFIG_FILE} ${CHECKPOINT_FILE} [--out ${RESULT_FILE}] [--eval ${EVAL_METRICS}] [--show]
+
+# multi-gpu testing
+./tools/dist_test.sh ${CONFIG_FILE} ${CHECKPOINT_FILE} ${GPU_NUM} [--out ${RESULT_FILE}] [--eval ${EVAL_METRICS}]
+```
+
+Optional arguments:
+
+- `RESULT_FILE`: Filename of the output results in pickle format. If not specified, the results will not be saved to a file. (After mmseg v0.17, the output results become pre-evaluation results or format result paths)
+- `EVAL_METRICS`: Items to be evaluated on the results. Allowed values depend on the dataset, e.g., `mIoU` is available for all dataset. Cityscapes could be evaluated by `cityscapes` as well as standard `mIoU` metrics.
+- `--show`: If specified, segmentation results will be plotted on the images and shown in a new window. It is only applicable to single GPU testing and used for debugging and visualization. Please make sure that GUI is available in your environment, otherwise you may encounter the error like `cannot connect to X server`.
+- `--show-dir`: If specified, segmentation results will be plotted on the images and saved to the specified directory. It is only applicable to single GPU testing and used for debugging and visualization. You do NOT need a GUI available in your environment for using this option.
+- `--eval-options`: Optional parameters for `dataset.format_results` and `dataset.evaluate` during evaluation. When `efficient_test=True`, it will save intermediate results to local files to save CPU memory. Make sure that you have enough local storage space (more than 20GB). (`efficient_test` argument does not have effect after mmseg v0.17, we use a progressive mode to evaluation and format results which can largely save memory cost and evaluation time.)
+
+Examples:
+
+Assume that you have already downloaded the checkpoints to the directory `checkpoints/`.
+
+Test CondNet with 4 GPUs, and evaluate the standard mIoU metric.
+
+    ```shell
+    ./tools/dist_test.sh configs/condnet/condnet_r101-d8_512x512_160k_ade20k.py \
+        checkpoints/condnet_r101-d8_512x512_160k_ade20k.pth \
+        4 --out results.pkl --eval mIoU
+    ```
 
 ## Citation
 
 If you find this project useful in your research, please consider cite:
 
 ```latex
-@misc{mmseg2020,
-    title={{MMSegmentation}: OpenMMLab Semantic Segmentation Toolbox and Benchmark},
-    author={MMSegmentation Contributors},
-    howpublished = {\url{https://github.com/open-mmlab/mmsegmentation}},
-    year={2020}
-}
+@ARTICLE{Yucondnet21,
+  author={Yu, Changqian and Shao, Yuanjie and Gao, Changxin and Sang, Nong},
+  journal={IEEE Signal Processing Letters}, 
+  title={CondNet: Conditional Classifier for Scene Segmentation}, 
+  year={2021},
+  volume={28},
+  number={},
+  pages={758-762},
+  doi={10.1109/LSP.2021.3070472}}
 ```
 
-## Contributing
-
-We appreciate all contributions to improve MMSegmentation. Please refer to [CONTRIBUTING.md](.github/CONTRIBUTING.md) for the contributing guideline.
 
 ## Acknowledgement
-
-MMSegmentation is an open source project that welcome any contribution and feedback.
-We wish that the toolbox and benchmark could serve the growing research
-community by providing a flexible as well as standardized toolkit to reimplement existing methods
-and develop their own new semantic segmentation methods.
-
-## Projects in OpenMMLab
-
-- [MMCV](https://github.com/open-mmlab/mmcv): OpenMMLab foundational library for computer vision.
-- [MMClassification](https://github.com/open-mmlab/mmclassification): OpenMMLab image classification toolbox and benchmark.
-- [MMDetection](https://github.com/open-mmlab/mmdetection): OpenMMLab detection toolbox and benchmark.
-- [MMDetection3D](https://github.com/open-mmlab/mmdetection3d): OpenMMLab's next-generation platform for general 3D object detection.
-- [MMSegmentation](https://github.com/open-mmlab/mmsegmentation): OpenMMLab semantic segmentation toolbox and benchmark.
-- [MMAction2](https://github.com/open-mmlab/mmaction2): OpenMMLab's next-generation action understanding toolbox and benchmark.
-- [MMTracking](https://github.com/open-mmlab/mmtracking): OpenMMLab video perception toolbox and benchmark.
-- [MMPose](https://github.com/open-mmlab/mmpose): OpenMMLab pose estimation toolbox and benchmark.
-- [MMEditing](https://github.com/open-mmlab/mmediting): OpenMMLab image and video editing toolbox.
-- [MMOCR](https://github.com/open-mmlab/mmocr): A Comprehensive Toolbox for Text Detection, Recognition and Understanding.
-- [MMGeneration](https://github.com/open-mmlab/mmgeneration): A powerful toolkit for generative models.
-- [MIM](https://github.com/open-mmlab/mim): MIM Installs OpenMMLab Packages.
+Thanks to:
+- [MMSegmentation](https://github.com/open-mmlab/mmsegmentation)
+- [AdeDet](https://github.com/aim-uofa/AdelaiDet)

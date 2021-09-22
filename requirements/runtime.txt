@@ -2,3 +2,4 @@ matplotlib
 numpy
 packaging
 prettytable
+mmsegmentation

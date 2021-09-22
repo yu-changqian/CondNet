@@ -13,7 +13,7 @@ from mmcv.utils import DictAction
 
 from mmseg.apis import multi_gpu_test, single_gpu_test
 from mmseg.datasets import build_dataloader, build_dataset
-from mmseg.models import build_segmentor
+from models import build_segmentor
 
 
 def parse_args():
@@ -21,8 +21,9 @@ def parse_args():
         description='mmseg test (and eval) a model')
     parser.add_argument('config', help='test config file path')
     parser.add_argument('checkpoint', help='checkpoint file')
-    parser.add_argument(
-        '--aug-test', action='store_true', help='Use Flip and Multi scale aug')
+    parser.add_argument('--aug-test',
+                        action='store_true',
+                        help='Use Flip and Multi scale aug')
     parser.add_argument('--out', help='output result file in pickle format')
     parser.add_argument(
         '--format-only',
@@ -37,28 +38,27 @@ def parse_args():
         help='evaluation metrics, which depends on the dataset, e.g., "mIoU"'
         ' for generic datasets, and "cityscapes" for Cityscapes')
     parser.add_argument('--show', action='store_true', help='show results')
-    parser.add_argument(
-        '--show-dir', help='directory where painted images will be saved')
-    parser.add_argument(
-        '--gpu-collect',
-        action='store_true',
-        help='whether to use gpu to collect results.')
+    parser.add_argument('--show-dir',
+                        help='directory where painted images will be saved')
+    parser.add_argument('--gpu-collect',
+                        action='store_true',
+                        help='whether to use gpu to collect results.')
     parser.add_argument(
         '--tmpdir',
         help='tmp directory used for collecting results from multiple '
         'workers, available when gpu_collect is not specified')
-    parser.add_argument(
-        '--options', nargs='+', action=DictAction, help='custom options')
-    parser.add_argument(
-        '--eval-options',
-        nargs='+',
-        action=DictAction,
-        help='custom options for evaluation')
-    parser.add_argument(
-        '--launcher',
-        choices=['none', 'pytorch', 'slurm', 'mpi'],
-        default='none',
-        help='job launcher')
+    parser.add_argument('--options',
+                        nargs='+',
+                        action=DictAction,
+                        help='custom options')
+    parser.add_argument('--eval-options',
+                        nargs='+',
+                        action=DictAction,
+                        help='custom options for evaluation')
+    parser.add_argument('--launcher',
+                        choices=['none', 'pytorch', 'slurm', 'mpi'],
+                        default='none',
+                        help='job launcher')
     parser.add_argument(
         '--opacity',
         type=float,
@@ -111,12 +111,11 @@ def main():
     # build the dataloader
     # TODO: support multiple images per gpu (only minor changes are needed)
     dataset = build_dataset(cfg.data.test)
-    data_loader = build_dataloader(
-        dataset,
-        samples_per_gpu=1,
-        workers_per_gpu=cfg.data.workers_per_gpu,
-        dist=distributed,
-        shuffle=False)
+    data_loader = build_dataloader(dataset,
+                                   samples_per_gpu=1,
+                                   workers_per_gpu=cfg.data.workers_per_gpu,
+                                   dist=distributed,
+                                   shuffle=False)
 
     # build the model and load checkpoint
     cfg.model.train_cfg = None
@@ -148,8 +147,8 @@ def main():
             'the evaluation and format results are CPU memory efficient by '
             'default')
 
-    eval_on_format_results = (
-        args.eval is not None and 'cityscapes' in args.eval)
+    eval_on_format_results = (args.eval is not None
+                              and 'cityscapes' in args.eval)
     if eval_on_format_results:
         assert len(args.eval) == 1, 'eval on format results is not ' \
                                     'applicable for metrics other than ' \
@@ -166,30 +165,32 @@ def main():
 
     if not distributed:
         model = MMDataParallel(model, device_ids=[0])
-        results = single_gpu_test(
-            model,
-            data_loader,
-            args.show,
-            args.show_dir,
-            False,
-            args.opacity,
-            pre_eval=args.eval is not None and not eval_on_format_results,
-            format_only=args.format_only or eval_on_format_results,
-            format_args=eval_kwargs)
+        results = single_gpu_test(model,
+                                  data_loader,
+                                  args.show,
+                                  args.show_dir,
+                                  False,
+                                  args.opacity,
+                                  pre_eval=args.eval is not None
+                                  and not eval_on_format_results,
+                                  format_only=args.format_only
+                                  or eval_on_format_results,
+                                  format_args=eval_kwargs)
     else:
         model = MMDistributedDataParallel(
             model.cuda(),
             device_ids=[torch.cuda.current_device()],
             broadcast_buffers=False)
-        results = multi_gpu_test(
-            model,
-            data_loader,
-            args.tmpdir,
-            args.gpu_collect,
-            False,
-            pre_eval=args.eval is not None and not eval_on_format_results,
-            format_only=args.format_only or eval_on_format_results,
-            format_args=eval_kwargs)
+        results = multi_gpu_test(model,
+                                 data_loader,
+                                 args.tmpdir,
+                                 args.gpu_collect,
+                                 False,
+                                 pre_eval=args.eval is not None
+                                 and not eval_on_format_results,
+                                 format_only=args.format_only
+                                 or eval_on_format_results,
+                                 format_args=eval_kwargs)
 
     rank, _ = get_dist_info()
     if rank == 0:
