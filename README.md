@@ -39,16 +39,16 @@ the conditional classifier (called CondNet) achieves new state-of-the-art perfor
 ## Results and Models
 ### ADE20K
 
-| Method  | Backbone | Crop Size | Lr schd |  mIoU | mIoU(ms+flip) | config                                                           | download  |
-| ------- | -------- | --------- | ------: | ----: | ------------: | ---------------------------------------------------------------- | --------- |
-| CondNet | R-50-D8  | 512x512   |  160000 | 43.68 |         44.30 | [config](configs/condnet/condnet_r50-d8_512x512_160k_ade20k.py)  | [model]() |
-| CondNet | R-101-D8 | 512x512   |  160000 | 45.64 |         47.12 | [config](configs/condnet/condnet_r101-d8_512x512_160k_ade20k.py) | [model]() |
+| Method  | Backbone | Crop Size | Lr schd |  mIoU | mIoU(ms+flip) | config                                                           | download                                                                                    |
+| ------- | -------- | --------- | ------: | ----: | ------------: | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| CondNet | R-50-D8  | 512x512   |  160000 | 43.68 |         44.30 | [config](configs/condnet/condnet_r50-d8_512x512_160k_ade20k.py)  | [model](https://drive.google.com/file/d/1ngWFxzHgdKyHGKRzzHpM5qixb1nZQouI/view?usp=sharing) |
+| CondNet | R-101-D8 | 512x512   |  160000 | 45.64 |         47.12 | [config](configs/condnet/condnet_r101-d8_512x512_160k_ade20k.py) | [model](https://drive.google.com/file/d/1LbMbEBkVuHFkKj3o1HSeTbRO4GzlA_ym/view?usp=sharing) |
 
 #### Pascal Context 59
 
-| Method  | Backbone | Crop Size | Lr schd |  mIoU | mIoU(ms+flip) | config                                                                                      | download  |
-| ------- | -------- | --------- | ------: | ----: | ------------: | ------------------------------------------------------------------------------------------- | --------- |
-| CondNet | R-101-D8 | 480x480   |   80000 | 54.29 |         55.74 | [config](configs/condnet/condnet_r101-d8_headlrx10_lr1e-3_480x480_80k_pascal_context_59.py) | [model]() |
+| Method  | Backbone | Crop Size | Lr schd |  mIoU | mIoU(ms+flip) | config                                                                                      | download                                                                                    |
+| ------- | -------- | --------- | ------: | ----: | ------------: | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| CondNet | R-101-D8 | 480x480   |   80000 | 54.29 |         55.74 | [config](configs/condnet/condnet_r101-d8_headlrx10_lr1e-3_480x480_80k_pascal_context_59.py) | [model](https://drive.google.com/file/d/1LjtqG_dcwseCJDx17ENj4o4EUlovk8EX/view?usp=sharing) |
 
 ## Environments
 The code is developed using python 3.7 on Ubuntu 16.04. NVIDIA GPUs are needed. The code is developed and tested using 8 NVIDIA V100 GPU cards. Other platforms or GPU cards are not fully tested.
