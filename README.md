@@ -27,9 +27,9 @@ the conditional classifier (called CondNet) achieves new state-of-the-art perfor
 <br />
 
 ## Major Features
-- **Simple and Flexible**
-- **Incorporated with almost arbitrary FCN architectures**
-- **Attending on the sample-specific distinction of each category**
+- Simple and Flexible
+- Incorporated with almost arbitrary FCN architectures
+- Attending on the sample-specific distinction of each category
 
 
 ## Results and Models
