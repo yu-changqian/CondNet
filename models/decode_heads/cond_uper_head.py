@@ -4,7 +4,7 @@ import torch.nn as nn
 from mmcv.cnn import ConvModule
 
 from mmseg.ops import resize
-from mmseg.models.psp_head import PPM
+from mmseg.models.decode_heads.psp_head import PPM
 
 from ..builder import HEADS
 from .conditional_decode_head import ConditionalDecodeHead
