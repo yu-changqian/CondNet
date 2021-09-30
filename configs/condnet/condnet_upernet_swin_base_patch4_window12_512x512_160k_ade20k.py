@@ -1,5 +1,5 @@
 _base_ = [
-    '../_base_/models/upernet_swin.py', '../_base_/datasets/ade20k.py',
+    '../_base_/models/condnet_upernet-swin.py', '../_base_/datasets/ade20k.py',
     '../_base_/default_runtime.py', '../_base_/schedules/schedule_160k.py'
 ]
 model = dict(pretrained='pretrain/swin_base_patch4_window12_384.pth',

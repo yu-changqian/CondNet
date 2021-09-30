@@ -11,7 +11,7 @@ from .conditional_decode_head import ConditionalDecodeHead
 
 
 @HEADS.register_module()
-class UPerHead(ConditionalDecodeHead):
+class CondUPerHead(ConditionalDecodeHead):
     """Unified Perceptual Parsing for Scene Understanding.
     This head is the implementation of `UPerNet
     <https://arxiv.org/abs/1807.10221>`_.
@@ -20,8 +20,8 @@ class UPerHead(ConditionalDecodeHead):
             Module applied on the last feature. Default: (1, 2, 3, 6).
     """
     def __init__(self, pool_scales=(1, 2, 3, 6), **kwargs):
-        super(UPerHead, self).__init__(input_transform='multiple_select',
-                                       **kwargs)
+        super(CondUPerHead, self).__init__(input_transform='multiple_select',
+                                           **kwargs)
         # PSP Module
         self.psp_modules = PPM(pool_scales,
                                self.in_channels[-1],

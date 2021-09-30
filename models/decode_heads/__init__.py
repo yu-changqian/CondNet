@@ -3,5 +3,6 @@
 
 from .cond_aspp_head import CondASPPHead
 from .cond_sep_aspp_head import CondDepthwiseSeparableASPPHead
+from .cond_uper_head import CondUPerHead
 
-__all__ = ['CondASPPHead', 'CondDepthwiseSeparableASPPHead']
+__all__ = ['CondASPPHead', 'CondDepthwiseSeparableASPPHead', 'CondUPerHead']
